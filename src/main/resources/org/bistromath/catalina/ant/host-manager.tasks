@@ -1,0 +1,7 @@
+add-host=org.bistromath.catalina.ant.AddHostTask
+remove-host=org.bistromath.catalina.ant.RemoveHostTask
+start-host=org.bistromath.catalina.ant.StartHostTask
+stop-host=org.bistromath.catalina.ant.StopHostTask
+list-hosts=org.bistromath.catalina.ant.ListHostsTask
+each-host=org.bistromath.catalina.ant.EachHostTask
+if-host=org.bistromath.catalina.ant.IfHostTask
