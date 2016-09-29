@@ -40,7 +40,6 @@ public class AddHostTask extends AbstractCatalinaHostCommandTask {
                 .put("manager", manager)
                 .getStringBuilder();
 
-        log("QUERY: " + builder.toString());
         return builder;
     }
 
