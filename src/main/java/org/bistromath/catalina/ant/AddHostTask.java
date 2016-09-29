@@ -1,14 +1,23 @@
 package org.bistromath.catalina.ant;
 
 import org.apache.tools.ant.BuildException;
+import org.bistromath.util.QueryString;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class AddHostTask extends AbstractCatalinaHostCommandTask {
 
-    protected String aliases = null;
-    protected boolean manager = false;
+    protected String aliases;
+    protected String appBase;
+    protected boolean autoDeploy = true;
+    protected boolean deployOnStartup = true;
+    protected boolean deployXML = true;
+    protected boolean unpackWARs = true;
+    protected boolean xmlNamespaceAware = false;
+    protected boolean xmlValidation = false;
+    protected boolean manager = true;
+
 
     @Override
     public void execute() throws BuildException {
@@ -19,31 +28,52 @@ public class AddHostTask extends AbstractCatalinaHostCommandTask {
     protected StringBuilder createQueryString(String command) throws BuildException {
         StringBuilder buffer = super.createQueryString(command);
 
-        if (manager) {
-            buffer.append("&manager=true");
-        }
+        StringBuilder builder = new QueryString(buffer)
+                .put("aliases", aliases)
+                .put("appBase", appBase)
+                .put("autoDeploy", autoDeploy)
+                .put("deployOnStartup", deployOnStartup)
+                .put("deployXML", deployXML)
+                .put("unpackWARs", unpackWARs)
+                .put("xmlNamespaceAware", xmlNamespaceAware)
+                .put("xmlValidation", xmlValidation)
+                .put("manager", manager)
+                .getStringBuilder();
 
-        try {
-            if (aliases != null) {
-                buffer.append("&aliases=");
-                buffer.append(URLEncoder.encode(this.aliases, this.getCharset()));
-            }
-        } catch (UnsupportedEncodingException e) {
-            throw new BuildException("Invalid \'charset\' attribute: " + this.getCharset());
-        }
-        return buffer;
-    }
-
-    public String getAliases() {
-        return aliases;
+        log("QUERY: " + builder.toString());
+        return builder;
     }
 
     public void setAliases(String aliases) {
         this.aliases = aliases;
     }
 
-    public boolean isManager() {
-        return manager;
+    public void setAppBase(String appBase) {
+        this.appBase = appBase;
+    }
+
+    public void setAutoDeploy(boolean autoDeploy) {
+        this.autoDeploy = autoDeploy;
+    }
+
+    public void setDeployOnStartup(boolean deployOnStartup) {
+        this.deployOnStartup = deployOnStartup;
+    }
+
+    public void setDeployXML(boolean deployXML) {
+        this.deployXML = deployXML;
+    }
+
+    public void setUnpackWARs(boolean unpackWARs) {
+        this.unpackWARs = unpackWARs;
+    }
+
+    public void setXmlNamespaceAware(boolean xmlNamespaceAware) {
+        this.xmlNamespaceAware = xmlNamespaceAware;
+    }
+
+    public void setXmlValidation(boolean xmlValidation) {
+        this.xmlValidation = xmlValidation;
     }
 
     public void setManager(boolean manager) {
